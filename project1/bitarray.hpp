@@ -34,7 +34,9 @@ public:
   std::string asString() const;
 
 private:
-
+  intmax_t N;
+  int8_t *arrPtr;
+  bool valid;
   // TODO
 };
 
