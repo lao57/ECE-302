@@ -71,7 +71,7 @@ TEST_CASE( "Bitarray: Test combined", "[bitarray]" ) {
         REQUIRE(b.good());
         REQUIRE(b.test(i));
         REQUIRE_FALSE(b.test(i + (1<<10)));
-        REQUIRE(((b.test(i + (1<<11)) == true && s.at(i + (1<<11)) == '0') || (b.test(i + (1<<11)) == false && s.at(i + (1<<11)) == '1')));
+        REQUIRE(((b.test(i + (1<<11)) == true && s.at(i + (1<<11)) == '0')));
     }
 }
 

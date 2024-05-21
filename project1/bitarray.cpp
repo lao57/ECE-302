@@ -10,16 +10,34 @@ BitArray::BitArray() {
     valid = true;
 }
 
+// BitArray::BitArray(intmax_t size) {
+//     if (size <= 0){
+//         throw std::out_of_range("The size of array must be greater than zero -- BitArray second contructor");
+//     }
+//     N = size;
+//     arrPtr = new int8_t[N];
+//     for (int i = 0; i < N; i++){
+//         arrPtr[i] = 0;
+//     }
+//     valid = true;
+// }
+
 BitArray::BitArray(intmax_t size) {
     if (size <= 0){
-        throw std::out_of_range("The size of array must be greater than zero -- BitArray second contructor");
+        valid = false;
+        N = 8;
+    arrPtr = new int8_t[N];
+    for (int i = 0; i < N; i++){
+        arrPtr[i] = 0;
     }
+    }else{
     N = size;
     arrPtr = new int8_t[N];
     for (int i = 0; i < N; i++){
         arrPtr[i] = 0;
     }
     valid = true;
+    }
 }
 
 BitArray::BitArray(const std::string & value) {
@@ -90,11 +108,11 @@ void BitArray::toggle(intmax_t index)
     if (index < 0 || index > (N-1)){
         valid = false;
     }else{
-        if(arrPtr[index] = 0){
-            arrPtr[index] = 1;
-        }else if(arrPtr[index] = 1){
-            arrPtr[index] = 0;
-        }
+    if(arrPtr[index] == 0){
+        arrPtr[index] = 1;
+    }else if(arrPtr[index] == 1){
+        arrPtr[index] = 0;
+    }
     }
 }
 
@@ -104,7 +122,7 @@ bool BitArray::test(intmax_t index)
         valid = false;
         return false;
     }
-    if(arrPtr[index] == 1){
+    if(arrPtr[index] == (uint8_t)1){
         return true;
     }else{
         return false;
