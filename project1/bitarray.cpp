@@ -4,7 +4,6 @@
 BitArray::BitArray() {
     N = 8;
     arrPtr = new int8_t[N];
-    arrPtr = new int8_t[N];
     for (int i = 0; i < N; i++){
         arrPtr[i] = 0;
     }
@@ -118,7 +117,12 @@ std::string BitArray::asString() const
     outStr.resize(N);
     for (int i = 0; i < N; i++){
         int checker = arrPtr[i];
-        outStr[i] = char(arrPtr[i]);
+        if(checker == 0){
+            outStr[i] = '0';
+        }else if(checker == 1){
+            outStr[i] = '1';
+        }
+        
     }
     return outStr;
 }
