@@ -1,28 +1,50 @@
 #include "dynamic_bag.hpp"
 
 template<typename T>
-DynamicBag<T>::DynamicBag() {}
+DynamicBag<T>::DynamicBag() {
+  size = 0;
+  bagptr = nullptr;
+}
   
 
 template<typename T>
-DynamicBag<T>::DynamicBag(const DynamicBag<T>& x){}
+DynamicBag<T>::DynamicBag(const DynamicBag<T>& x){
+  size = x.size;
+  bagptr = new T[size];
+  for (int i =0; i<size; i++){
+    bagptr[i] = x.bagptr[i];
+  }
+}
     
 template<typename T>
-DynamicBag<T>::~DynamicBag(){}
+DynamicBag<T>::~DynamicBag(){
+  delete [] bagptr;
+}
   
 template<typename T>
 DynamicBag<T>& DynamicBag<T>::operator=(DynamicBag<T> x)
-{  
+{ 
+  swap(x);
   return *this;
 }
 
 template<typename T>
-void DynamicBag<T>::swap(DynamicBag<T>& x){}
+void DynamicBag<T>::swap(DynamicBag<T>& x){
+  std::swap(bagptr, x.bagptr);
+  std::swap(size, x.size);
+}
 
 template<typename T>
 bool DynamicBag<T>::add(const T& item)
 {
-  return false;
+  T *copier = bagptr;
+  size += 1;
+  bagptr = new T[size];
+  for (int i =0; i<size-1; i++){
+    bagptr[i] = copier[i];
+  }
+    bagptr[size-1] = item;
+  return true;
 }
 
 template<typename T>
