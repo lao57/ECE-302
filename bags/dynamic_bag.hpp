@@ -44,7 +44,7 @@ public:
   bool contains(const T& item) const;
 
 private:
-  int size;
+  std::size_t size;
   T *bagptr;
 
   // TODO
