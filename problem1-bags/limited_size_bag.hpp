@@ -35,6 +35,8 @@ public:
   static const std::size_t maxsize = 100;
 
 private:
+T bagarray[100];
+int count;
 
   // TODO
 };
