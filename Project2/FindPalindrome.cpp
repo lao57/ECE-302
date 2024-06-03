@@ -65,8 +65,34 @@ bool FindPalindrome::alphachecker(const std::string & value)
 			return false;
 		}
 	}
-	if(isPalindrome(value) == false){
+	std::string val = value;
+	convertToLowerCase(val);
+	std::vector<std::string> worder = wordvctr;
+	for(int i = 0; i < worder.size(); i++){
+	convertToLowerCase(worder[i]);
+	if (val == worder[i]){
 		return false;
+	}
+	}
+	return true;
+}
+
+bool FindPalindrome::alphacheckerstring(const std::vector<std::string> &newvec)
+{
+	for (int j = 0; j < newvec.size(); j++){
+		int repeatcount = 0;
+ 		std::string val = newvec[j];
+		convertToLowerCase(val);
+		std::vector<std::string> worder = newvec;
+		for(int i = 0; i < worder.size(); i++){
+			convertToLowerCase(worder[i]);
+			if (val == worder[i]){
+				repeatcount += 1;
+				if(repeatcount > 1){
+					return false;
+				}
+			}
+		}
 	}
 	return true;
 }
@@ -117,21 +143,12 @@ bool FindPalindrome::add(const string & value)
 	if (alphachecker(value) == false){
 		return false;
 	}
-	int temppalct = palcount;
-	std::vector<std::vector<std::string>> vecvectemp = vecvec;
 	palcount = 0;
 	size += 1;
 	vecvec.clear();
 	wordvctr.push_back(value);
 	std::vector<std::string> newCanVec;
 	recursiveFindPalindromes(newCanVec,wordvctr);
-	if(palcount == 0){
-		vecvec = vecvectemp;
-		palcount = temppalct;
-		wordvctr.pop_back();
-		size -= 1;
-		return false;
-	}
 	return true;
 }
 
@@ -142,24 +159,17 @@ bool FindPalindrome::add(const vector<string> & stringVector)
 			return false;
 		}
 	}
-	int temppalct = palcount;
-	std::vector<std::vector<std::string>> vecvectemp = vecvec;
+	if (alphacheckerstring(stringVector) == false){
+		return false;
+	}
 	palcount = 0;
 	size += stringVector.size();
 	vecvec.clear();
-	std::vector<std::string> tempwordvctr = wordvctr;
 	for (int i = 0; i < stringVector.size(); i++){
 		wordvctr.push_back(stringVector[i]);
 	}
 	std::vector<std::string> newCanVec;
 	recursiveFindPalindromes(newCanVec,wordvctr);
-	if(palcount == 0){
-		vecvec = vecvectemp;
-		palcount = temppalct;
-		wordvctr = tempwordvctr;
-		size -= stringVector.size();
-		return false;
-	}
 	return true;
 }
 

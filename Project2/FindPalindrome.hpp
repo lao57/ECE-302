@@ -41,6 +41,7 @@ private:
 	}
 
 	bool alphachecker(const std::string & value);
+	bool alphacheckerstring(const std::vector<std::string> & newvec);
 	
 public:
 	
