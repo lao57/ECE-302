@@ -3,12 +3,16 @@
 
 #include <string>
 #include <vector>
+#include <cctype>
 
 class FindPalindrome{
 
 private:
 	// private stuff that you define and implement goes here...
-	
+	std::vector<std::string> wordvctr;
+	int palcount;
+	std::vector<std::vector<std::string>> vecvec;
+	int size;
 	// ...
 	
 	// private stuff that you are given or is specified in the project
@@ -27,8 +31,19 @@ private:
 	  do not want to use a recursive version for this test (as it is 
 	  inefficient). You may change the signature of this function. */
 	bool isPalindrome(std::string currentString) const;
+
+	std::string stringer(std::vector<std::string> &vec){
+		std::string str;
+		for (int i = 0; i < vec.size(); i++){
+			str += vec[i];
+		}
+		return str;
+	}
+
+	bool alphachecker(const std::string & value);
 	
 public:
+	
 	/** Constructor for the FindPalindrome object. */
 	FindPalindrome();
 
@@ -99,6 +114,7 @@ public:
 	    all current strings added to the FindPalindrome instance.
 	@return  A vector of vectors containing all palindromes. */
 	std::vector< std::vector<std::string> > toVector() const;
+
 
 };
 

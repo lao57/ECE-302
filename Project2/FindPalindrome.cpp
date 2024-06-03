@@ -3,6 +3,7 @@
 #include <iostream>
 #include "FindPalindrome.hpp"
 
+
 using namespace std;
 
 //------------------- HELPER FUNCTIONS -----------------------------------------
@@ -24,8 +25,18 @@ static void convertToLowerCase(string & value)
 void FindPalindrome::recursiveFindPalindromes(vector<string>
         candidateStringVector, vector<string> currentStringVector)
 {
-	// TODO need to implement this recursive function!
-	return;
+
+	if(isPalindrome(stringer(candidateStringVector))==true && candidateStringVector.size() == size){
+		vecvec.push_back(candidateStringVector);
+		palcount += 1;
+	}
+	for (int i = 0; i < currentStringVector.size(); i++){
+		std::vector<std::string> newCanVec = candidateStringVector;
+		std::vector<std::string> newCurVec = currentStringVector;
+		newCanVec.push_back(newCurVec[i]);
+		newCurVec.erase(newCurVec.begin()+i);
+		recursiveFindPalindromes(newCanVec,newCurVec);
+	}
 }
 
 // private function to determine if a string is a palindrome (given, you
@@ -47,8 +58,25 @@ bool FindPalindrome::isPalindrome(string currentString) const
 
 //------------------- PUBLIC CLASS METHODS -------------------------------------
 
+bool FindPalindrome::alphachecker(const std::string & value)
+{
+	for(int i = 0; i < value.length(); i++){
+		if(isalpha(value[i]) == 0){
+			return false;
+		}
+	}
+	if(isPalindrome(value) == false){
+		return false;
+	}
+	return true;
+}
+
 FindPalindrome::FindPalindrome()
 {
+	wordvctr;
+	vecvec;
+	palcount = 0;
+	size = 0;
 	// TODO need to implement this...
 }
 
@@ -60,12 +88,15 @@ FindPalindrome::~FindPalindrome()
 int FindPalindrome::number() const
 {
 	// TODO need to implement this...
-	return 10;
+	return palcount;
 }
 
 void FindPalindrome::clear()
 {
-	// TODO need to implement this...
+	wordvctr.clear();
+	vecvec.clear();
+	palcount = 0;
+	size = 0;
 }
 
 bool FindPalindrome::cutTest1(const vector<string> & stringVector)
@@ -83,19 +114,58 @@ bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
 
 bool FindPalindrome::add(const string & value)
 {
-	// TODO need to implement this...
-	return false;
+	if (alphachecker(value) == false){
+		return false;
+	}
+	int temppalct = palcount;
+	std::vector<std::vector<std::string>> vecvectemp = vecvec;
+	palcount = 0;
+	size += 1;
+	vecvec.clear();
+	wordvctr.push_back(value);
+	std::vector<std::string> newCanVec;
+	recursiveFindPalindromes(newCanVec,wordvctr);
+	if(palcount == 0){
+		vecvec = vecvectemp;
+		palcount = temppalct;
+		wordvctr.pop_back();
+		size -= 1;
+		return false;
+	}
+	return true;
 }
 
 bool FindPalindrome::add(const vector<string> & stringVector)
 {
-	// TODO need to implement this...
-	return false;
+	for(int i = 0; i < stringVector.size(); i++){
+		if (alphachecker(stringVector[i]) == false){
+			return false;
+		}
+	}
+	int temppalct = palcount;
+	std::vector<std::vector<std::string>> vecvectemp = vecvec;
+	palcount = 0;
+	size += stringVector.size();
+	vecvec.clear();
+	std::vector<std::string> tempwordvctr = wordvctr;
+	for (int i = 0; i < stringVector.size(); i++){
+		wordvctr.push_back(stringVector[i]);
+	}
+	std::vector<std::string> newCanVec;
+	recursiveFindPalindromes(newCanVec,wordvctr);
+	if(palcount == 0){
+		vecvec = vecvectemp;
+		palcount = temppalct;
+		wordvctr = tempwordvctr;
+		size -= stringVector.size();
+		return false;
+	}
+	return true;
 }
 
 vector< vector<string> > FindPalindrome::toVector() const
 {
 	// TODO need to implement this...
-	return vector< vector<string> >();
+	return vecvec;
 }
 
