@@ -42,6 +42,15 @@ bool isPost(std::string s) {
 
 void convert(const std::string &postfix, std::string &prefix) {
 
-  // TODO
-  
+  int postfixlen = postfix.length();
+  char i = postfix[postfixlen-1];
+
+  if (isalpha(i)==true){
+    prefix = i + prefix;
+  }else if(isoperator(i)==true){
+    convert(postfix.substr((postfixlen-1)/2,(postfixlen-1)/2), prefix);
+    convert(postfix.substr(0, (postfixlen-1)/2), prefix);
+    prefix = i + prefix;
+  }
+
 }
