@@ -2,6 +2,7 @@
 #define CATCH_CONFIG_COLOUR_NONE
 #include "catch.hpp"
 #include "FindPalindrome.hpp"
+#include <vector>
 
 // There should be at least one test per FindPalindrome method
 
@@ -110,4 +111,17 @@ TEST_CASE("test otis 2", "[FindPalindrome]"){
 	REQUIRE(b.add("potato"));
 	REQUIRE(b.add("pan"));
 	REQUIRE(b.add("otis"));
+}
+
+TEST_CASE("cuttest1 tester", "[FindPalindrome]"){
+
+	FindPalindrome c;	
+	std::vector<std::string> d = {"a","AA","AaAa","bbb"};
+	REQUIRE(c.add(d));
+	REQUIRE_FALSE(c.cutTest1(d));
+
+	FindPalindrome g;	
+	std::vector<std::string> f = {"a","AA","AaAa","bbbbccddww",};
+	REQUIRE(g.cutTest1(d));
+
 }
