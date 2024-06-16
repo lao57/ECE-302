@@ -2,6 +2,7 @@
 #define _LIST_HPP_
 
 #include "abstract_list.hpp"
+#include "Node.hpp"
 
 template <typename T>
 class List: public AbstractList<T>
@@ -20,7 +21,6 @@ public:
   // copy assignment
   List& operator=(List x);
 
-  // swap
   void swap(List& x);
   
   // determine if a list is empty
@@ -45,7 +45,8 @@ public:
   void setEntry(std::size_t position, const T& newValue);
 
 private:
-
+  Node<T> *headptr;
+  std::size_t size;
   //TODO
   
 };
