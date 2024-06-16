@@ -128,7 +128,7 @@ void FindPalindrome::clear()
 
 bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 {
-	int arr[26];
+	int arr[26] = {0};
 	int size = stringVector.size();
 	for (int i = 0; i<size; i++){
 		std::string str = stringVector[i];
@@ -236,8 +236,47 @@ bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
                               const vector<string> & stringVector2)
 {
-	// TODO need to implement this...
-	return false;
+	
+	int len1 = stringVector1.size();
+	std::string v1 = {};
+	for (int i = 0; i < len1; i++){
+		v1 += stringVector1[i];
+	}
+	int len2 = stringVector2.size();
+	std::string v2 = {};
+	for (int i = 0; i < len2; i++){
+		v2 += stringVector2[i];
+	}
+	convertToLowerCase(v1);
+	convertToLowerCase(v2);
+	if(v1.length() < v2.length()){
+		for(int i = 0; i < v1.length(); i++){
+			char h1 = v1[i];
+			bool checker = false;
+			for (int j = 0; j < v2.length(); j++){
+				if (h1 == v2[j]){
+					checker = true;
+				}
+			}
+			if (checker == false){
+				return false;
+			}
+		}
+	}else {
+		for(int i = 0; i < v2.length(); i++){
+			char h1 = v2[i];
+			bool checker = false;
+			for (int j = 0; j < v1.length(); j++){
+				if (h1 == v1[j]){
+					checker = true;
+				}
+			}
+			if (checker == false){
+				return false;
+			}
+			}
+	}
+	return true;
 }
 
 bool FindPalindrome::add(const string & value)

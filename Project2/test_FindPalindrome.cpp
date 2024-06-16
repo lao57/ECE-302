@@ -122,6 +122,19 @@ TEST_CASE("cuttest1 tester", "[FindPalindrome]"){
 
 	FindPalindrome g;	
 	std::vector<std::string> f = {"a","AA","AaAa","bbbbccddww",};
-	REQUIRE(g.cutTest1(d));
+	REQUIRE(g.cutTest1(f));
 
+}
+
+TEST_CASE("cuttest2 tester", "[FindPalindrome]"){
+
+	FindPalindrome c;	
+	std::vector<std::string> d = {"a","AA","AaAa","aaa"};
+	std::vector<std::string> f = {"a","AA","AaAa","aaaaaaaaaaa",};
+	REQUIRE(c.cutTest2(d,f));
+
+	FindPalindrome q;	
+	std::vector<std::string> z = {"a","AA","AaAa","aaa"};
+	std::vector<std::string> y = {"a","AA","AaAa","aaaaaaaaaaa",};
+	REQUIRE(q.cutTest2(y,z));
 }
