@@ -2,6 +2,7 @@
 #define _LIST_HPP_
 
 #include "abstract_list.hpp"
+#include "Node.hpp"
 
 template <typename T>
 class List: public AbstractList<T>
@@ -20,7 +21,6 @@ public:
   // copy assignment
   List& operator=(List x);
 
-  // swap
   void swap(List& x);
   
   // determine if a list is empty
@@ -41,11 +41,40 @@ public:
   // get a copy of the item at position
   T getEntry(std::size_t position) const;
 
-  // set the value of the item at position
+  // set the value of the item at position 
   void setEntry(std::size_t position, const T& newValue);
 
-private:
+    void sort()
+{
+	int last1 = getLength()-1;
+	quicksort(0,last1);
+}
 
+  void quicksort(int first, int last)
+{
+	if(first < last){
+		int pivpos = first;
+		T pivot = getEntry(first);
+		for(int i = first+1; i <= last; i++){
+			T holder = getEntry(i);
+			if(pivot > holder){
+				remove(i);
+				insert(first,holder);
+				pivpos += 1;
+			}
+
+		}
+		quicksort(first,pivpos);
+		if(pivpos != last){
+			quicksort(pivpos + 1,last);
+		}
+
+	}
+}
+
+protected:
+  Node<T> *headptr;
+  std::size_t size;
   //TODO
   
 };

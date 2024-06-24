@@ -4,12 +4,14 @@
 template <typename T>
 SortedList<T>::SortedList(): List<T>()
 {
+  List<T>();
 }
 
 template <typename T>
 SortedList<T>::SortedList(List<T> unsorted_list) 
 {
-  // TODO
+  unsorted_list.sort();
+  operator=(unsorted_list);
 }
 
 template <typename T>
@@ -46,19 +48,42 @@ std::size_t SortedList<T>::getLength() const noexcept
 template <typename T>
 void SortedList<T>::insert(const T& item)
 {
-  // TODO
+  bool check = false;
+  if(getLength() > 0){
+    int i = 0;
+  while(check == false && i < getLength()){
+    T comp = getEntry(i);
+    if (item < comp || item == comp){
+      List<T>::insert(i,item);
+      check = true;
+    }
+    i++;
+  }
+  }else{
+    List<T>::insert(0,item);
+  }
 }
 
 template <typename T>
 void SortedList<T>::remove(const T& item)
 {  
-  // TODO
+  bool check = false;
+  for (int i = 0; i < getLength(); i++){
+    T value = getEntry(i);
+    if (value == item){
+      List<T>::remove(i);
+      check = true;
+    }
+  }
+  if (check == false){
+    List<T>::remove(-23);
+  }
 }
 
 template <typename T>
 void SortedList<T>::removeAt(std::size_t position)
 {  
-  // TODO
+  List<T>::remove(position);
 }
 
 template <typename T>
@@ -76,6 +101,12 @@ T SortedList<T>::getEntry(std::size_t position) const
 template <typename T>
 long int SortedList<T>::getPosition(const T& item)
 {
-  // TODO
-  return 0;
+  int index = -1;
+  for (int i = 0; i < getLength(); i++){
+    T value = getEntry(i);
+    if (value == item){
+      index = i;
+    }
+  }
+  return index;
 }
