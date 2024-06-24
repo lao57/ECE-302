@@ -129,8 +129,8 @@ void List<T>::clear()
 template <typename T>
 T List<T>::getEntry(std::size_t position) const
 {
-  if (position >= size) {
-    return T();
+  if (position >= size || position < 0) {
+    throw std::range_error("out of range");
   }else{
   Node<T> *nodetracker = headptr;
   for (int i = 0; i < position; i++){
@@ -143,7 +143,8 @@ T List<T>::getEntry(std::size_t position) const
 template <typename T>
 void List<T>::setEntry(std::size_t position, const T& newValue)
 {
-  if (position >= size) {
+  if (position >= size || position < 0) {
+    throw std::range_error("out of range");
   }else{
   if (position == size){
     insert(position, newValue);

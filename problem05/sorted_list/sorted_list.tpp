@@ -51,10 +51,14 @@ void SortedList<T>::insert(const T& item)
   bool check = false;
   if(getLength() > 0){
     int i = 0;
-  while(check == false && i < getLength()){
+    int len = getLength();
+  while(check == false && i < len){
     T comp = getEntry(i);
     if (item < comp || item == comp){
       List<T>::insert(i,item);
+      check = true;
+    }else if(i == getLength()-1){
+      List<T>::insert(i+1,item);
       check = true;
     }
     i++;
@@ -95,6 +99,9 @@ void SortedList<T>::clear()
 template <typename T>
 T SortedList<T>::getEntry(std::size_t position) const
 {
+  if (position < 0 || position >= getLength()){
+    throw std::range_error("out of range");
+  }
   return List<T>::getEntry(position);
 }
 
