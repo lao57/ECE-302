@@ -9,20 +9,20 @@
 #include "Bag.hpp"
 
 template<class ItemType>
-Bag<ItemType>::Bag() : headPtr(nullptr), itemCount(0)
+Bag<ItemType>::Bag() : headPtr(nullptr), currentSize(0)
 {
 }  // end default constructor
 
 template<class ItemType>
 int Bag<ItemType>::size() const
 {
-	return itemCount;
+	return currentSize;
 }  // end size
 
 template<class ItemType>
 bool Bag<ItemType>::isEmpty() const
 {
-	return itemCount == 0;
+	return currentSize == 0;
 }  // end isEmpty
 
 template<class ItemType>
@@ -33,7 +33,7 @@ bool Bag<ItemType>::add(const ItemType& newEntry)
 	Node<ItemType>* nextNodePtr = new Node<ItemType>(newEntry, headPtr); // alternate code
 
 	headPtr = nextNodePtr;          // New node is now first node
-	itemCount++;
+	currentSize++;
 
 	return true;                    // The method is always successful
 }  // end add
@@ -52,7 +52,7 @@ void Bag<ItemType>::clear()
 	}  // end while
 	// headPtr is nullptr; nodeToDeletePtr is nullptr
 
-	itemCount = 0;
+	currentSize = 0;
 }  // end clear
 
 template<class ItemType>
@@ -84,7 +84,7 @@ int Bag<ItemType>::getFrequencyOf(const ItemType& anEntry) const
 	int frequency = 0;
 	int counter = 0;
 	Node<ItemType>* curPtr = headPtr;
-	while ((curPtr != nullptr) && (counter < itemCount))
+	while ((curPtr != nullptr) && (counter < currentSize))
 	{
 		if (anEntry == curPtr->getItem())
 		{
@@ -104,7 +104,7 @@ std::vector<ItemType> Bag<ItemType>::toVector() const
 	std::vector<ItemType> bagContents;
 	Node<ItemType>* curPtr = headPtr;
 	int counter = 0;
-	while ((curPtr != nullptr) && (counter < itemCount))
+	while ((curPtr != nullptr) && (counter < currentSize))
 	{
 		bagContents.push_back(curPtr->getItem());
 		curPtr = curPtr->getNext();

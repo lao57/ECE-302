@@ -14,7 +14,7 @@ class Bag
 {
 private:
 	Node<ItemType>* headPtr; // Pointer to first node
-	int itemCount;           // Current number of items in bag
+	int currentSize;           // Current number of items in bag
 
 	/** Private helper function.
 	Returns either a pointer to the node containing a given item,
