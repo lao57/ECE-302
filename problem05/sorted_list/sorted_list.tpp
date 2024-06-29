@@ -10,8 +10,12 @@ SortedList<T>::SortedList(): List<T>()
 template <typename T>
 SortedList<T>::SortedList(List<T> unsorted_list) 
 {
+  List<T>();
   unsorted_list.sort();
-  operator=(unsorted_list);
+  int len = unsorted_list.getLength();
+  for (int i = 0; i < len; i++){
+    insert(unsorted_list.getEntry(i));
+  }
 }
 
 template <typename T>
