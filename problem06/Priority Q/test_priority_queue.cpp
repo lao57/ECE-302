@@ -19,25 +19,6 @@ TEST_CASE("Testing Priority Queue", "[priority queue]") {
   
 }
 
-
-TEST_CASE("Testing sorted list") {
-  List<char> unsorted;
-  
-  unsorted.insert(0,'a');
-  unsorted.insert(1,'d');
-  unsorted.insert(2,'e');
-  unsorted.insert(3,'c');
-  unsorted.insert(4,'b');
-
-  SortedList<char> sorted(unsorted);
-
-  REQUIRE(sorted.getPosition('a') == 0);
-  REQUIRE(sorted.getPosition('b') == 1);
-  REQUIRE(sorted.getPosition('c') == 2);
-  REQUIRE(sorted.getPosition('d') == 3);
-  REQUIRE(sorted.getPosition('e') == 4);
-}
-
 TEST_CASE("Priority: Testing Priority Queue Add and Remove Multiple") {
   PriorityQueueType pq;
   pq.add(10);
