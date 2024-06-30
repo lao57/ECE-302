@@ -52,9 +52,12 @@ TEST_CASE("testing is_validtoken"){
 }
 
 TEST_CASE("testing validator"){
-	std::string s = ".invalid";
+	std::string s = "<.invalid>";
 	XMLParser xml;
-	REQUIRE_FALSE(xml.validator(s));
+	REQUIRE_FALSE(xml.tokenizeInputString(s));
+	s = "< /tag>";
+	REQUIRE_FALSE(xml.tokenizeInputString(s));
+	REQUIRE_FALSE(xml.tokenizeInputString(" "));
 }
 
 TEST_CASE("testing what_type"){

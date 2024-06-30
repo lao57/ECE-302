@@ -33,9 +33,10 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
 	//vars
 	int i = 0, len = inputString.length();
+	bool something = false;
 
-	//clearing vector
-	tokenizedInputVector.clear();
+	//clearing class
+	clear();
 
 
 	// big while loop
@@ -45,6 +46,7 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 
 		//in a tag
 		if (x == '<'){
+			something = true;
 			std::string tokenstr;
 			i++;
 			char x = inputString[i];
@@ -62,6 +64,9 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 				//trim based on type
 				if (type == END_TAG){
 					tokenstr.erase(0,1);
+					if (validator_1(tokenstr) == false){
+						return false;
+					}
 					trimmer(tokenstr);
 					if (validator(tokenstr) == false){
 						return false;
@@ -69,12 +74,18 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 				}
 				if (type == EMPTY_TAG){
 					tokenstr.erase(tokenstr.length()-1);
+					if (validator_1(tokenstr) == false){
+						return false;
+					}
 					trimmer(tokenstr);
 					if (validator(tokenstr) == false){
 						return false;
 					}
 				}
 				if (type == START_TAG){
+					if (validator_1(tokenstr) == false){
+						return false;
+					}
 					trimmer(tokenstr);
 					if (validator(tokenstr) == false){
 						return false;
@@ -95,8 +106,8 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 		}
 
 		//in content
-		else if(x != '<' && x != ' '){
-
+		else if(x != '<' && !std::isspace(x)){
+			something = true;
 			std::string contentstr;
 			while (x != '<'){
 				contentstr += x;
@@ -118,6 +129,9 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 		}
 
 
+	}
+	if (something == false){
+		return false;
 	}
 	return true;
 

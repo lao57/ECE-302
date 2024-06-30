@@ -137,11 +137,21 @@ public:
 		}
 	}
 
+	bool validator_1(std::string s){
+		int len = s.length();
+		bool check = false;
+		int i = 0;
+		if (std::isspace(s[i]) || s[i] == '.' || s[i] == '-'|| s[i] == '1' || s[i] == '2' || s[i] == '3'|| s[i] == '4' || s[i] == '5' || s[i] == '6'|| s[i] == '7' ||s[i] == '8' || s[i] == '9' || s[i] == '0'){
+			return false;
+		} 
+		return true;
+	}
+
 	bool validator(std::string s){
 		int len = s.length();
 		bool check = false;
 		int i = 0;
-		if (s[i] == '.' || s[i] == '-'|| s[i] == '1' || s[i] == '2' || s[i] == '3'|| s[i] == '4' || s[i] == '5' || s[i] == '6'|| s[i] == '7' ||s[i] == '8' || s[i] == '9' || s[i] == '0'){
+		if (std::isspace(s[i]) || s[i] == '.' || s[i] == '-'|| s[i] == '1' || s[i] == '2' || s[i] == '3'|| s[i] == '4' || s[i] == '5' || s[i] == '6'|| s[i] == '7' ||s[i] == '8' || s[i] == '9' || s[i] == '0'){
 			return false;
 		}
 		for (i; i < len; i++){
