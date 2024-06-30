@@ -42,6 +42,7 @@ TEST_CASE( "Test Stack push and size", "[ADT Stack]" )
 		}
 }
 
+// my cases------------------------------------------------------------
 TEST_CASE("testing is_validtoken"){
 	std::string s = "<djkfldajjjfjaksl>";
 	std::string k = "<djkfl<dajjjfjaksl>";
@@ -49,6 +50,43 @@ TEST_CASE("testing is_validtoken"){
 	REQUIRE(xml.is_validtoken(s));
 	REQUIRE_FALSE(xml.is_validtoken(k));
 }
+
+TEST_CASE("testing validator"){
+	std::string s = ".invalid";
+	XMLParser xml;
+	REQUIRE_FALSE(xml.validator(s));
+}
+
+TEST_CASE("testing what_type"){
+	std::string s = "djkfldajjjfjaksl";
+	std::string d = "?womp womp?";
+	std::string e = "djkfldajjjfjaksl/";
+	std::string en = "/womp womp";
+	XMLParser xml;
+	StringTokenType t;
+	t = xml.what_type(s);
+	REQUIRE(t == START_TAG);
+	t = xml.what_type(d);
+	REQUIRE(t == DECLARATION);
+	t = xml.what_type(e);
+	REQUIRE(t == EMPTY_TAG);
+	t = xml.what_type(en);
+	REQUIRE(t == END_TAG);
+}
+
+TEST_CASE( "Test XMLParser tokenizeInputString more", "[XMLParser]" )
+{
+	   INFO("Hint: tokenize single element test of XMLParse");
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+		string testString = "<test>stuff</test>";
+		bool success;
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(success);
+}
+
+
+//end of my cases------------------------------------------------------------------
 
 TEST_CASE( "Test XMLParser tokenizeInputString", "[XMLParser]" )
 {
@@ -59,6 +97,17 @@ TEST_CASE( "Test XMLParser tokenizeInputString", "[XMLParser]" )
 		bool success;
 		success = myXMLParser.tokenizeInputString(testString);
 		REQUIRE(success);
+}
+
+TEST_CASE( "Test XMLParser inval tokenizeInputString", "[XMLParser]" )
+{
+	   INFO("Hint: tokenize single element test of XMLParse");
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+		string testString = "<.test>stuff</test>";
+		bool success;
+		success = myXMLParser.tokenizeInputString(testString);
+		REQUIRE(!success);
 }
 
 

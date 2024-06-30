@@ -73,7 +73,9 @@ bool Stack<ItemType>::pop()
 		Node<ItemType>* nextNodePtr = headPtr->getNext();
 		delete headPtr;
 		headPtr = nextNodePtr;
+		currentSize--;
 		return true;
+
 	}else{
 		return false;
 	}

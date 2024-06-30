@@ -101,8 +101,57 @@ public:
 				return false;
 			}
 		}
+		if(s[0] == '/' && s[len-1] == '/'){
+			return false;
+		}
+		return true;
 	}
 
+	StringTokenType what_type(std::string s){
+		int len = s.length();
+		if(s[0] == '?'){
+			return DECLARATION;
+		} else if (s[0] == '/'){
+			return END_TAG;
+		} else if (s[len-1] == '/'){
+			return EMPTY_TAG;
+		} else{
+			return START_TAG;
+		}
+	}
+
+	void trimmer(std::string &s){
+		int len = s.length();
+		bool check = false;
+		int i = 0;
+		int index = -4;
+		while (i < len && check == false){
+			if(std::isspace(s[i])){
+				check = true;
+				index = i;
+			}
+			i++;
+		}
+		if (check == true){
+			s = s.substr(0,index);
+		}
+	}
+
+	bool validator(std::string s){
+		int len = s.length();
+		bool check = false;
+		int i = 0;
+		if (s[i] == '.' || s[i] == '-'|| s[i] == '1' || s[i] == '2' || s[i] == '3'|| s[i] == '4' || s[i] == '5' || s[i] == '6'|| s[i] == '7' ||s[i] == '8' || s[i] == '9' || s[i] == '0'){
+			return false;
+		}
+		for (i; i < len; i++){
+			char x = s[i];
+			if (isgood(x) == false){
+				return false;
+			}
+		}
+		return true;
+	}
 
 
 

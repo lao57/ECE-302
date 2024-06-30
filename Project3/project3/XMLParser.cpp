@@ -34,6 +34,9 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 	//vars
 	int i = 0, len = inputString.length();
 
+	//clearing vector
+	tokenizedInputVector.clear();
+
 
 	// big while loop
 	while (i < len){
@@ -43,62 +46,80 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 		//in a tag
 		if (x == '<'){
 			std::string tokenstr;
+			i++;
+			char x = inputString[i];
 			while ( x != '>'){
-				tokenstr + x;
+				tokenstr += x;
 				i++;
 				x = inputString[i];
 			}
-			tokenstr + x; //adds the ">" at the end
 			i++;
 			if (is_validtoken(tokenstr)){
-			//is_vaildtoken(tokenstr);  if true else return false
-			//StringTokenType type = what_type(tokenstr);
-			//TokenStruct token(type, tokenstr);
-			//tokenizedInputVector.popback(token);
+				StringTokenType type = what_type(tokenstr);
+				TokenStruct token; 
+				token.tokenType = type;
+
+				//trim based on type
+				if (type == END_TAG){
+					tokenstr.erase(0,1);
+					trimmer(tokenstr);
+					if (validator(tokenstr) == false){
+						return false;
+					}
+				}
+				if (type == EMPTY_TAG){
+					tokenstr.erase(tokenstr.length()-1);
+					trimmer(tokenstr);
+					if (validator(tokenstr) == false){
+						return false;
+					}
+				}
+				if (type == START_TAG){
+					trimmer(tokenstr);
+					if (validator(tokenstr) == false){
+						return false;
+					}
+				}
+				if (type == DECLARATION){
+					tokenstr.erase(tokenstr.length()-1);
+					tokenstr.erase(0,1);
+				}
+				
+
+				token.tokenString = tokenstr;
+				tokenizedInputVector.push_back(token);
+				tokenstr.clear();
 			}else{
 				return false;
 			}
 		}
 
 		//in content
-		else if(x != '<'){
+		else if(x != '<' && x != ' '){
 
 			std::string contentstr;
 			while (x != '<'){
-				contentstr + x;
+				contentstr += x;
 				i++;
 				x = inputString[i];
 			}
 
-			//is_validcont(); if true else return false
-			//StringTokenType type = CONTENT;
-			//TokenStruct token(type, tokenstr);
-			//tokenizedInputVector.popback(token);
+			//isvalid?????
+			StringTokenType type = CONTENT;
+			TokenStruct token; 
+			token.tokenType = type;
+			token.tokenString = contentstr;
+			tokenizedInputVector.push_back(token);
+			contentstr.clear();
 
-
-
-
-
-
-
-
+		}
+		else if (x == ' '){
+			i++;
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	}
+	return true;
 
 }  // end
 
