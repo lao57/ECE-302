@@ -12,52 +12,30 @@ typedef PriorityQueue<int, SortedListType>  PriorityQueueType;
 TEST_CASE("Testing Priority Queue", "[priority queue]") {
   PriorityQueueType pq;
 
-  // TODO
+  for (int i = 0; i < 10){
+    pq.add(i+1);
+    REQUIRE(pq.peek() == i+1);
+  }
   
 }
 
-TEST_CASE("Testing Sorted List") {
-  SortedListType sl;
-  REQUIRE(sl.isEmpty());
+
+TEST_CASE("Testing sorted list") {
+  List<char> unsorted;
   
-  sl.insert(2);
-  REQUIRE(sl.getEntry(0) == 2);
-  
-  sl.insert(1);
-  REQUIRE(sl.getEntry(0) == 1);
-  REQUIRE(sl.getEntry(1) == 2);
-}
+  unsorted.insert(0,'a');
+  unsorted.insert(1,'d');
+  unsorted.insert(2,'e');
+  unsorted.insert(3,'c');
+  unsorted.insert(4,'b');
 
-TEST_CASE("Testing Priority Queue Construction and isEmpty") {
-  PriorityQueueType pq;
-  REQUIRE(pq.isEmpty());
-}
+  SortedList<char> sorted(unsorted);
 
-TEST_CASE("Testing Priority Queue Add and isEmpty") {
-  PriorityQueueType pq;
-  pq.add(10);
-  REQUIRE_FALSE(pq.isEmpty());
-}
-
-TEST_CASE("Testing Priority Queue Add and Peek") {
-  PriorityQueueType pq;
-  pq.add(10);
-  REQUIRE(pq.peek() == 10);
-}
-
-TEST_CASE("Testing Priority Queue Add Multiple") {
-  PriorityQueueType pq;
-  pq.add(10);
-  pq.add(15);
-  REQUIRE(pq.peek() == 15);
-}
-
-TEST_CASE("Testing Priority Queue Add and Remove") {
-  PriorityQueueType pq;
-  pq.add(10);
-  pq.add(15);
-  pq.remove();
-  REQUIRE(pq.peek() == 10);
+  REQUIRE(sorted.getPosition('a') == 0);
+  REQUIRE(sorted.getPosition('b') == 1);
+  REQUIRE(sorted.getPosition('c') == 2);
+  REQUIRE(sorted.getPosition('d') == 3);
+  REQUIRE(sorted.getPosition('e') == 4);
 }
 
 TEST_CASE("Priority: Testing Priority Queue Add and Remove Multiple") {
