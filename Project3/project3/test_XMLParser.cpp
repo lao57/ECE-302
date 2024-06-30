@@ -42,6 +42,14 @@ TEST_CASE( "Test Stack push and size", "[ADT Stack]" )
 		}
 }
 
+TEST_CASE("testing is_validtoken"){
+	std::string s = "<djkfldajjjfjaksl>";
+	std::string k = "<djkfl<dajjjfjaksl>";
+	XMLParser xml;
+	REQUIRE(xml.is_validtoken(s));
+	REQUIRE_FALSE(xml.is_validtoken(k));
+}
+
 TEST_CASE( "Test XMLParser tokenizeInputString", "[XMLParser]" )
 {
 	   INFO("Hint: tokenize single element test of XMLParse");

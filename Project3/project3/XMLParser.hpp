@@ -90,6 +90,28 @@ public:
 	void clear();
 	/** The class destructor. Must free all allocated memory. */
 	bool isgood(char);
+
+	//my own functions
+
+	bool is_validtoken(std::string s){
+		int len = s.length();
+		for (int i = 1; i < len; i++){
+			char x = s[i];
+			if (x == '<'){
+				return false;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
 	~XMLParser();
 }; // end XMLParser
 

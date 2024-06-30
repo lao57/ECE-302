@@ -31,13 +31,75 @@ XMLParser::~XMLParser()
 // TODO: Implement the tokenizeInputString method
 bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
-	bool start = false, stop = false;
-	for (int i = 0; i < inputString.length(); i++){
+	//vars
+	int i = 0, len = inputString.length();
+
+
+	// big while loop
+	while (i < len){
+
 		char x = inputString[i];
+
+		//in a tag
 		if (x == '<'){
-			start = true;
+			std::string tokenstr;
+			while ( x != '>'){
+				tokenstr + x;
+				i++;
+				x = inputString[i];
+			}
+			tokenstr + x; //adds the ">" at the end
+			i++;
+			if (is_validtoken(tokenstr)){
+			//is_vaildtoken(tokenstr);  if true else return false
+			//StringTokenType type = what_type(tokenstr);
+			//TokenStruct token(type, tokenstr);
+			//tokenizedInputVector.popback(token);
+			}else{
+				return false;
+			}
 		}
+
+		//in content
+		else if(x != '<'){
+
+			std::string contentstr;
+			while (x != '<'){
+				contentstr + x;
+				i++;
+				x = inputString[i];
+			}
+
+			//is_validcont(); if true else return false
+			//StringTokenType type = CONTENT;
+			//TokenStruct token(type, tokenstr);
+			//tokenizedInputVector.popback(token);
+
+
+
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	}
+
 }  // end
 
 // TODO: Implement the parseTokenizedInput method here
