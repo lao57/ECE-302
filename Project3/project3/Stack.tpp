@@ -70,7 +70,7 @@ template<class ItemType>
 bool Stack<ItemType>::pop() 
 {
 	if(currentSize > 0){
-		Node<ItemType>* nextNodePtr = headptr->getNext();
+		Node<ItemType>* nextNodePtr = headPtr->getNext();
 		delete headPtr;
 		headPtr = nextNodePtr;
 		return true;

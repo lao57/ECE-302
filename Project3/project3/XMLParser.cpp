@@ -7,9 +7,21 @@
 #include "XMLParser.hpp"
 
 // TODO: Implement the constructor here
-XMLParser::XMLParser()
+XMLParser::XMLParser() : elementNameBag(), parseStack(), tokenizedInputVector()
 {
 }  // end default constructor
+
+bool XMLParser::isgood(char x)
+{
+    std::string badstuff = {'!','"','#','$','%','&','(',')','*','+',',','/',';','<','>','=','?','@','[',']','^','`','{','}','|','~'};
+	int len = badstuff.length();
+	for (int i = 0; i < len; i++){
+		if (x == badstuff[i]){
+			return false;
+		}
+	}
+	return true;
+}
 
 // TODO: Implement the destructor here
 XMLParser::~XMLParser()
@@ -19,7 +31,13 @@ XMLParser::~XMLParser()
 // TODO: Implement the tokenizeInputString method
 bool XMLParser::tokenizeInputString(const std::string &inputString)
 {
-	return false;
+	bool start = false, stop = false;
+	for (int i = 0; i < inputString.length(); i++){
+		char x = inputString[i];
+		if (x == '<'){
+			start = true;
+		}
+	}
 }  // end
 
 // TODO: Implement the parseTokenizedInput method here
@@ -49,4 +67,3 @@ int XMLParser::frequencyElementName(const std::string &inputString) const
 {
 	return -1;
 }
-

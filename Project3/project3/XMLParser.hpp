@@ -89,6 +89,7 @@ public:
 	    @post  The class instance can be used to tokenize a new input string. */
 	void clear();
 	/** The class destructor. Must free all allocated memory. */
+	bool isgood(char);
 	~XMLParser();
 }; // end XMLParser
 
