@@ -140,12 +140,37 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 // TODO: Implement the parseTokenizedInput method here
 bool XMLParser::parseTokenizedInput()
 {
-	return false;
+	int len = tokenizedInputVector.size();
+	if ( len == 0){
+		return false;
+	}else if(tokenizedInputVector[0].tokenType != START_TAG && tokenizedInputVector[0].tokenType != DECLARATION){
+		return false;
+	}
+
+	int num_o_starts = 0;
+	for (int i = 0; i < len; i++){
+		if (tokenizedInputVector[i].tokenType == START_TAG){
+			parseStack.push(tokenizedInputVector[i].tokenString);
+			elementNameBag.add(tokenizedInputVector[i].tokenString);
+			num_o_starts++;
+		}else if (tokenizedInputVector[i].tokenType == END_TAG){
+			if (tokenizedInputVector[i].tokenString != parseStack.peek()){
+				return false;
+			}else{
+				parseStack.pop();
+			}
+		}
+	}
+	return parseStack.isEmpty();
 }
 
 // TODO: Implement the clear method here
 void XMLParser::clear()
 {
+	parseStack.clear();
+	elementNameBag.clear();
+	tokenizedInputVector.clear();
+
 }
 
 vector<TokenStruct> XMLParser::returnTokenizedInput() const
@@ -156,11 +181,11 @@ vector<TokenStruct> XMLParser::returnTokenizedInput() const
 // TODO: Implement the containsElementName method
 bool XMLParser::containsElementName(const std::string &inputString) const
 {
-	return false;
+	return elementNameBag.contains(inputString);
 }
 
 // TODO: Implement the frequencyElementName method
 int XMLParser::frequencyElementName(const std::string &inputString) const
 {
-	return -1;
+	return elementNameBag.getFrequencyOf(inputString);
 }
