@@ -61,7 +61,7 @@ ItemType Stack<ItemType>::peek() const
 	if(currentSize > 0){
 	return headPtr->getItem();
 	}else{
-		throw std::range_error("range error1");
+		throw logic_error("Empty Stack.");
 	}
 }  // end peek
 

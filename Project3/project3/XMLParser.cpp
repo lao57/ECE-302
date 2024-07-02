@@ -49,10 +49,20 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 			something = true;
 			std::string tokenstr;
 			i++;
-			char x = inputString[i];
-			while ( x != '>'){
+			if (inputString[i] == '>'){
+				return false;
+			}
+
+			if (i >=  len){
+				return false;
+			}
+			x = inputString[i];
+			while ( x != '>' && i < len){
 				tokenstr += x;
 				i++;
+				if( i >= len){
+					return false;
+				}
 				x = inputString[i];
 			}
 			i++;
@@ -103,6 +113,8 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 			}else{
 				return false;
 			}
+		}else if (x == '>'){
+			return false;
 		}
 
 		//in content
@@ -126,6 +138,8 @@ bool XMLParser::tokenizeInputString(const std::string &inputString)
 		}
 		else if (x == ' '){
 			i++;
+		}else{
+			i++;
 		}
 
 
@@ -146,10 +160,13 @@ bool XMLParser::parseTokenizedInput()
 	}else if(tokenizedInputVector[0].tokenType != START_TAG && tokenizedInputVector[0].tokenType != DECLARATION){
 		return false;
 	}
-
+	
 	int num_o_starts = 0;
 	for (int i = 0; i < len; i++){
 		if (tokenizedInputVector[i].tokenType == START_TAG){
+			if(num_o_starts > 0 && parseStack.isEmpty() == true){
+				return false;
+			}
 			parseStack.push(tokenizedInputVector[i].tokenString);
 			elementNameBag.add(tokenizedInputVector[i].tokenString);
 			num_o_starts++;
@@ -158,6 +175,10 @@ bool XMLParser::parseTokenizedInput()
 				return false;
 			}else{
 				parseStack.pop();
+			}
+		}else if (tokenizedInputVector[i].tokenType == DECLARATION){
+			if (!parseStack.isEmpty()){
+				return false;
 			}
 		}
 	}

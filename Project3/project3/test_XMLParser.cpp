@@ -58,6 +58,7 @@ TEST_CASE("testing validator"){
 	s = "< /tag>";
 	REQUIRE_FALSE(xml.tokenizeInputString(s));
 	REQUIRE_FALSE(xml.tokenizeInputString(" "));
+	REQUIRE_FALSE(xml.tokenizeInputString(" \n <"));
 }
 
 TEST_CASE("testing what_type"){

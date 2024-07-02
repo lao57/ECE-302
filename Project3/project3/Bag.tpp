@@ -75,12 +75,16 @@ Node<ItemType>* Bag<ItemType>::getPointerTo(const ItemType& target) const
 template<class ItemType>
 bool Bag<ItemType>::contains(const ItemType& anEntry) const
 {
+	if( currentSize <= 0){
+		return false;
+	}
 	return (getPointerTo(anEntry) != nullptr);
 }  // end contains
 
 template<class ItemType>
 int Bag<ItemType>::getFrequencyOf(const ItemType& anEntry) const
 {
+
 	int frequency = 0;
 	int counter = 0;
 	Node<ItemType>* curPtr = headPtr;
@@ -94,6 +98,7 @@ int Bag<ItemType>::getFrequencyOf(const ItemType& anEntry) const
 		counter++;
 		curPtr = curPtr->getNext();
 	} // end while
+
 
 	return frequency;
 }  // end getFrequencyOf
