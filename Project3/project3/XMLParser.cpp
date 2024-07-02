@@ -202,11 +202,25 @@ vector<TokenStruct> XMLParser::returnTokenizedInput() const
 // TODO: Implement the containsElementName method
 bool XMLParser::containsElementName(const std::string &inputString) const
 {
+	if (tokenizedInputVector.empty() || parseStack.size() != 0) {
+        throw std::logic_error("Input not tokenized and parsed.");
+    }
+    if (elementNameBag.isEmpty()) {
+        throw std::logic_error("Input not tokenized and parsed.");
+    }
+
 	return elementNameBag.contains(inputString);
 }
 
 // TODO: Implement the frequencyElementName method
 int XMLParser::frequencyElementName(const std::string &inputString) const
 {
+	if (tokenizedInputVector.empty() || parseStack.size() != 0) {
+        throw std::logic_error("Input not tokenized and parsed.");
+    }
+
+    if (elementNameBag.getFrequencyOf(inputString) == 0) {
+        throw std::logic_error("Input not parsed.");
+    }
 	return elementNameBag.getFrequencyOf(inputString);
 }
