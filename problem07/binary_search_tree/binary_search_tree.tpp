@@ -97,8 +97,25 @@ template <typename KeyType, typename ItemType>
 bool BinarySearchTree<KeyType, ItemType>::insert(
     const KeyType& key, const ItemType& item)
 {
-    // TODO 
-    return false;
+    Node<KeyType, ItemType>* temp = new Node<KeyType, ItemType>;
+    temp->data = item;
+    temp->key = key;
+    if (isEmpty()){
+        root = temp;
+    }else{
+        Node<KeyType, ItemType>* curr;
+        Node<KeyType, ItemType>* curr_parent;
+        search(key, curr, curr_parent);
+        if (key == curr->key){
+            delete [] temp;
+            return false;
+        }else if(curr->key > key){
+            curr->left = temp;
+        }else{
+            curr->right = temp;
+        }
+    }
+    return true;
 }
 
 template <typename KeyType, typename ItemType>
@@ -133,19 +150,49 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
         return false; // empty tree
 
     // TODO
+    if(key == root->key){ // only one thing in the tree
+        delete root;
+        root = 0;
+    }
+    Node<KeyType, ItemType>* curr;
+    Node<KeyType, ItemType>* curr_parent;
+    search(key, curr, curr_parent);
 
-
-    // case one thing in the tree
-
+    if (curr->key != key){//if its not there
+        return false;
+    }
     // case, found deleted item at leaf
+    if(curr->left == 0 && curr->right == 0){
+        delete curr;
+    }
 
     // case, item to delete has only a right child
+    if(curr->left == 0 && curr->right != 0){
+        if (curr_parent->right == curr){
+            curr_parent->right = curr->right;
+            delete curr;
+        }
+        else if (curr_parent->left == curr){
+            curr_parent->left = curr->right;
+            delete curr;
+        }
+    }
 
     // case, item to delete has only a left child
+    if(curr->left != 0 && curr->right == 0){
+        if (curr_parent->right == curr){
+            curr_parent->right = curr->left;
+            delete curr;
+        }
+        else if (curr_parent->left == curr){
+            curr_parent->left = curr->left;
+            delete curr;
+        }
+    }
 
     // case, item to delete has two children
 
-    return false; 
+    return true; 
 }
 
 template <typename KeyType, typename ItemType>
