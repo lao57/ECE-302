@@ -157,40 +157,49 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
     Node<KeyType, ItemType>* curr;
     Node<KeyType, ItemType>* curr_parent;
     search(key, curr, curr_parent);
-
-    if (curr->key != key){//if its not there
+    ItemType item;
+    
+    if (retrieve(key,item) == false){
         return false;
     }
-    // case, found deleted item at leaf
-    if(curr->left == 0 && curr->right == 0){
-        delete curr;
-    }
 
-    // case, item to delete has only a right child
-    if(curr->left == 0 && curr->right != 0){
-        if (curr_parent->right == curr){
-            curr_parent->right = curr->right;
+    //case found at leaf
+    if(curr->left == nullptr && curr->right == nullptr){
+        if (curr_parent->left == curr){
+            curr_parent->left = nullptr;
             delete curr;
-        }
-        else if (curr_parent->left == curr){
-            curr_parent->left = curr->right;
+        }else{
+            curr_parent->right = nullptr;
             delete curr;
         }
     }
 
-    // case, item to delete has only a left child
-    if(curr->left != 0 && curr->right == 0){
-        if (curr_parent->right == curr){
-            curr_parent->right = curr->left;
-            delete curr;
-        }
-        else if (curr_parent->left == curr){
-            curr_parent->left = curr->left;
-            delete curr;
-        }
-    }
 
-    // case, item to delete has two children
+    // // case, item to delete has only a right child
+    // if(curr->left == 0 && curr->right != 0){
+    //     if (curr_parent->right == curr){
+    //         curr_parent->right = curr->right;
+    //         delete curr;
+    //     }
+    //     else if (curr_parent->left == curr){
+    //         curr_parent->left = curr->right;
+    //         delete curr;
+    //     }
+    // }
+
+    // // case, item to delete has only a left child
+    // if(curr->left != 0 && curr->right == 0){
+    //     if (curr_parent->right == curr){
+    //         curr_parent->right = curr->left;
+    //         delete curr;
+    //     }
+    //     else if (curr_parent->left == curr){
+    //         curr_parent->left = curr->left;
+    //         delete curr;
+    //     }
+    // }
+
+    // // case, item to delete has two children
 
     return true; 
 }
