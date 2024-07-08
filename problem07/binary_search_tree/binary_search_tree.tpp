@@ -107,7 +107,7 @@ bool BinarySearchTree<KeyType, ItemType>::insert(
         Node<KeyType, ItemType>* curr_parent;
         search(key, curr, curr_parent);
         if (key == curr->key){
-            delete [] temp;
+            delete temp;
             return false;
         }else if(curr->key > key){
             curr->left = temp;
@@ -150,16 +150,22 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
         return false; // empty tree
 
     // TODO
-    if(key == root->key){ // only one thing in the tree
-        delete root;
-        root = 0;
+    // only one thing in the tree
+    if (root->left == 0 && root->right == 0) {
+        if (root->key == key) {
+            delete root;
+            root = 0;
+            return true;
+        } else {
+            return false;
+        }
     }
     Node<KeyType, ItemType>* curr;
     Node<KeyType, ItemType>* curr_parent;
     search(key, curr, curr_parent);
     ItemType item;
     
-    if (retrieve(key,item) == false){
+    if (curr->key != key) {
         return false;
     }
 
@@ -176,48 +182,78 @@ bool BinarySearchTree<KeyType, ItemType>::remove(KeyType key)
 
 
     // // case, item to delete has only a right child
-    // if(curr->left == 0 && curr->right != 0){
-    //     if (curr_parent->right == curr){
-    //         curr_parent->right = curr->right;
-    //         delete curr;
-    //     }
-    //     else if (curr_parent->left == curr){
-    //         curr_parent->left = curr->right;
-    //         delete curr;
-    //     }
-    // }
+    else if (curr->left == 0) {
+        if (curr_parent == 0) {
+            root = curr->right;
+            delete curr;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = curr->right;
+            delete curr;
+        } else {
+            curr_parent->right = curr->right;
+            delete curr;
+        }
+    }
 
     // // case, item to delete has only a left child
-    // if(curr->left != 0 && curr->right == 0){
-    //     if (curr_parent->right == curr){
-    //         curr_parent->right = curr->left;
-    //         delete curr;
-    //     }
-    //     else if (curr_parent->left == curr){
-    //         curr_parent->left = curr->left;
-    //         delete curr;
-    //     }
-    // }
-
+    else if (curr->right == 0) {
+        if (curr_parent == 0) {
+            root = curr->left;
+            delete curr;
+        } else if (curr_parent->left == curr) {
+            curr_parent->left = curr->left;
+            delete curr;
+        } else {
+            curr_parent->right = curr->left;
+            delete curr;
+        }
+    }
     // // case, item to delete has two children
+    else {
+        Node<KeyType, ItemType>* in;
+        Node<KeyType, ItemType>* in_Parent;
+        inorder(curr, in, in_Parent);
+
+        std::swap(curr, in);
+        in->data = curr->data;
+        in->key = curr->key;
+
+        if (in_Parent->left == curr) {
+            delete curr;
+            in_Parent->left = 0;
+        } else if (in_Parent->right == curr) {
+            delete curr;
+            in_Parent->right = 0;
+        }
+    }
 
     return true; 
 }
 
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::inorder(Node<KeyType, ItemType>* curr,
-    Node<KeyType, ItemType>*& in, Node<KeyType, ItemType>*& parent)
+    Node<KeyType, ItemType>*& in, Node<KeyType, ItemType>*& curr_parent)
 {
     // TODO: find inorder successor of "curr" and assign to "in"
-
+    curr_parent = curr;
+    in = curr_parent->right;
+    
+    while (in != 0) {
+        if (in->left == 0) {
+            return;
+        } else {
+            curr_parent = in;
+            in = in->left;
+        }
+    }
 }
 
 template <typename KeyType, typename ItemType>
 void BinarySearchTree<KeyType, ItemType>::search(KeyType key,
-    Node<KeyType, ItemType>*& curr, Node<KeyType, ItemType>*& parent)
+    Node<KeyType, ItemType>*& curr, Node<KeyType, ItemType>*& curr_parent)
 {
     curr = root;
-    parent = 0;
+    curr_parent = 0;
 
     if (isEmpty())
         return;
@@ -227,13 +263,13 @@ void BinarySearchTree<KeyType, ItemType>::search(KeyType key,
             break;
         } else if (key < curr->key) {
             if (curr->left != 0) {
-                parent = curr;
+                curr_parent = curr;
                 curr = curr->left;
             } else
                 break;
         } else {
             if (curr->right != 0) {
-                parent = curr;
+                curr_parent = curr;
                 curr = curr->right;
             } else
                 break;
@@ -248,4 +284,15 @@ void BinarySearchTree<KeyType, ItemType>::treeSort(KeyType arr[], int size) {
     // TODO: use the tree to sort the array items
 
     // TODO: overwrite input array values with sorted values
+
+    for (int i=0; i<size; i++) {
+        if (insert(arr[i], ItemType()) == false) {
+            
+            for (int j=i; j<size-1; j++) {
+                arr[j] = arr[j+1];
+            }
+            size--;
+            i--;
+        }
+    }
 }
