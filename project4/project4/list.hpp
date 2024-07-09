@@ -48,6 +48,9 @@ private:
 
   //TODO
   
+  T* items;
+  std::size_t length;
+  
 };
 
 #include "list.tpp"
