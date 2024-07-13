@@ -45,6 +45,7 @@ struct Pixel {
   uint8_t alpha;
 };
 
+
 // define some common colors
 static const Pixel BLACK = {0, 0, 0, 255};
 static const Pixel WHITE = {255, 255, 255, 255};
@@ -63,6 +64,8 @@ Image<Pixel> readFromFile(std::string fname);
 // write an Image of RGBA pixels from the PNG formatted file fname
 // throws std::runtime_error on failure
 void writeToFile(const Image<Pixel> &im, std::string fname);
+
+
 
 // ----------------------------------------------------------------------------
 // IMPLEMENTATION of Image below

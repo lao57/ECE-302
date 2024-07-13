@@ -43,16 +43,12 @@ int main(int argc, char *argv[])
 
 
   // TODO
-  Queue<int, int> frontier;
-  Queue<int, int> explored;
+  Queue<loc, loc> frontier;
+  Queue<loc, loc> explored;
 
 
   // Write solution image to file
   writeToFile(image, output_file);
-
-  //functions
-
-
   
 }
 

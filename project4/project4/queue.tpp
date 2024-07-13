@@ -11,7 +11,7 @@ void Queue<T,L>::enqueue(const T& item)
 template <typename T, typename L>
 void Queue<T,L>::dequeue()
 {
-  return internal_list.remove(0);
+  internal_list.remove(0);
 }
 
 template <typename T, typename L>
