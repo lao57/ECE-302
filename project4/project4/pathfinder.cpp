@@ -38,7 +38,14 @@ int main(int argc, char *argv[])
   std::string output_file = argv[2];
 
   // Read input image from file
-  Image<Pixel> image = readFromFile(input_file);
+  Image<Pixel> image;
+  try {
+        image = readFromFile(input_file);
+        
+    } catch (const std::runtime_error &e) {
+        std::cout << "Error - Image:Runtime error: " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
   //vars
  loc start, goal;
@@ -52,7 +59,7 @@ int main(int argc, char *argv[])
     parent.insert(i*width+j, {-1,-1});
   }
  }
- bool found = 0;
+ int found = 0;
 
 
 
@@ -65,50 +72,62 @@ int main(int argc, char *argv[])
   if(goals.contains(start)){
     found = 2;
 //put in what to do if goal is start
-  }else if(start.row == -1){
+  }
+  else if(goals.isEmpty()){
+     found = -3;
+  }
+  else if(start.row == -1){
     std::cout << "Error - something went wrong in starter" << std::endl;
     found = -1;
     //something went wrong
-  }else{
+  }else if(start.row == -2){
+    std::cout << "Error - NOn-standard color found" << std::endl;
+    found = -1;
+    //something went wrong
+    }else{
     path.enqueue(start);
-    while(!path.isEmpty()){
+    while(!path.isEmpty() && found == 0){
       loc mouse = path.peekFront();
       path.dequeue();
       visited.insert(0, mouse);
-
-      for (int r = -1; r <= 1; r++) {
-        for (int c = -1; c <= 1; c++) {
-          if(r != 0 && c != 0){
-          }else{
+      for(int t = 0; t < 4; t++){
+        int r, c;
+        if(t == 0){
+          r = -1, c = 0;
+        }else if(t == 1){
+          r = 1, c = 0;
+        }else if(t == 2){
+          r = 0, c = -1;
+        }else{
+          r = 0, c = 1;
+        }
             loc next;
             next.row = mouse.row + r;
             next.col = mouse.col + c;
 
             if(image(next.row, next.col) != BLACK && next.row >= 0 && next.col >= 0  && next.row < height && next.col < width && !visited.contains(next)){
               parent.setEntry(next.row*width+next.col, mouse);
-              if(goals.contains(next)){
+              if(next.row == height-1 || next.col == width -1 || next.col == 0 || next.row == 0){
                 found = 1;
                 goal = next;
+                r = 5;
+                c = 5;
                 break;
               }
               visited.insert(0,next);
               path.enqueue(next);
 
             }
-          }
-        }
       }
-
-
     }
   }
   if(found == 1){
     std::cout << "Soultion Found" << std::endl;
-    while(!(goal == start)){
+    //while(!(goal == start)){
       int r = goal.row, c = goal.col;
       image(r,c) = GREEN;
-      goal = parent.getEntry(r*width + c);
-    }
+      //goal = parent.getEntry(r*width + c);
+    //}
   }else if(found == 2){
     int r = start.row, c = start.col;
     image(r,c) = GREEN;
@@ -134,14 +153,23 @@ loc starter(Image<Pixel> img, List<loc>& goals)
     loc start;
     for(int row = 0; row < height; row++){
       for(int col = 0; col < width; col++){
-        if(img(row, col) == RED){
-          if(row == 0 || col == 0 || row == height - 1 || col == width - 1){
-            if (img(row, col) != BLACK){
+        if (img(row, col) != RED && img(row, col) != WHITE && img(row, col) != BLACK){
+          return {-2,-2};
+        }
+        if(row == 0 || col == 0 || row == height - 1 || col == width - 1){
+            if (img(row, col) == WHITE){
               loc adder;
               adder.row = row;
               adder.col = col;
               goals.insert(0, adder);
             }
+          }
+        if(img(row, col) == RED){
+          if(row == 0 || col == 0 || row == height - 1 || col == width - 1){
+              loc adder;
+              adder.row = row;
+              adder.col = col;
+              goals.insert(0, adder);
           }
           if (found == true){
             std::cout << "Error - two red pixels found" << std::endl;
