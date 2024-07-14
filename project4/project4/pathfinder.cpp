@@ -53,12 +53,12 @@ int main(int argc, char *argv[])
  Queue<loc, List<loc>> path;
  List<loc> visited;
  int width = image.width(), height = image.height();
- List<loc> parent;
- for(int i = 0; i < height; i++){
-  for(int j = 0; j < width; j++){
-    parent.insert(i*width+j, {-1,-1});
-  }
- }
+ //List<loc> parent;
+ //for(int i = 0; i < height; i++){
+  //for(int j = 0; j < width; j++){
+    //parent.insert(i*width+j, {-1,-1});
+  //}
+ //}
  int found = 0;
 
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
             next.col = mouse.col + c;
 
             if(image(next.row, next.col) != BLACK && next.row >= 0 && next.col >= 0  && next.row < height && next.col < width && !visited.contains(next)){
-              parent.setEntry(next.row*width+next.col, mouse);
+              //parent.setEntry(next.row*width+next.col, mouse);
               if(next.row == height-1 || next.col == width -1 || next.col == 0 || next.row == 0){
                 found = 1;
                 goal = next;
