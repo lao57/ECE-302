@@ -44,6 +44,8 @@ public:
   // set the value of the item at position 
   void setEntry(std::size_t position, const T& newValue);
 
+  bool contains(T val);
+
 private:
 
   //TODO

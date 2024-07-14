@@ -4,6 +4,7 @@
 
 #include "abstract_queue.hpp"
 
+
 template <typename T, typename L>
 class Queue: public AbstractQueue<T>
 {

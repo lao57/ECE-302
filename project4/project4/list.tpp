@@ -127,3 +127,14 @@ void List<T>::setEntry(std::size_t position, const T& newValue)
   }
   items[position] = newValue;
 }
+
+template <typename T>
+bool List<T>::contains(T val){
+  bool cont = false;
+  for (int i = 0; i < length; i++){
+    if(val == items[i]){
+      cont = true;
+    }
+  }
+  return cont;
+}
