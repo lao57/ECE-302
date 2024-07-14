@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
     parent.insert(i*width+j, {-1,-1});
   }
  }
- bool found = false;
+ bool found = 0;
 
 
 
@@ -63,8 +63,11 @@ int main(int argc, char *argv[])
 
   //case where we start on end point
   if(goals.contains(start)){
+    found = 2;
 //put in what to do if goal is start
   }else if(start.row == -1){
+    std::cout << "Error - something went wrong in starter" << std::endl;
+    found = -1;
     //something went wrong
   }else{
     path.enqueue(start);
@@ -84,7 +87,7 @@ int main(int argc, char *argv[])
             if(image(next.row, next.col) != BLACK && next.row >= 0 && next.col >= 0  && next.row < height && next.col < width && !visited.contains(next)){
               parent.setEntry(next.row*width+next.col, mouse);
               if(goals.contains(next)){
-                found = true;
+                found = 1;
                 goal = next;
                 break;
               }
@@ -99,20 +102,22 @@ int main(int argc, char *argv[])
 
     }
   }
-  if(found){
+  if(found == 1){
     std::cout << "Soultion Found" << std::endl;
     while(!(goal == start)){
       int r = goal.row, c = goal.col;
       image(r,c) = GREEN;
       goal = parent.getEntry(r*width + c);
     }
+  }else if(found == 2){
+    int r = start.row, c = start.col;
+    image(r,c) = GREEN;
+    std::cout << "Soultion Found" << std::endl;
+  }else if(found == -1){
+    return EXIT_FAILURE;
   }else{
     std::cout << "No Soultion Found" << std::endl;
   }
-
-
-  // TODO
-  
 
 
   // Write solution image to file
