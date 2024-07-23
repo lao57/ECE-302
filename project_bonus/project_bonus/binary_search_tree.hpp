@@ -14,6 +14,7 @@ public:
     BinarySearchTree(const BinarySearchTree& rhs);
     BinarySearchTree& operator=(BinarySearchTree rhs);
     ~BinarySearchTree();
+    //hi leum
 
     void swap(BinarySearchTree& rhs);
     bool insert(const KeyType& key, const ItemType& item);
