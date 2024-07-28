@@ -25,7 +25,7 @@ void frontier_queue<T>::push(const T &p, std::size_t cost, std::size_t heur) {
 template <typename T>
 bool frontier_queue<T>::empty() {
 
-  //TODO
+  return queue.Empty();
 
   return true;
 }
@@ -33,7 +33,8 @@ bool frontier_queue<T>::empty() {
 template <typename T> 
 bool frontier_queue<T>::contains(const T &p) {
 
-  //TODO
+  int len = queue.size();
+  for (int i = 0; i < len; )
 
   return false;
 
