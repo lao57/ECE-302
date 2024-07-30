@@ -14,23 +14,23 @@ State<T> frontier_queue<T>::pop()
   int size = queue.size() - 1;
   while ((index * 2 + 1) <= size)
   {
-    int newpos = -4;
+    int newpos = index;
     left = index * 2 + 1;
     right = index * 2 + 2;
-    if (queue[index].getFCost() < queue[left].getFCost())
+    if (queue[newpos].getFCost() > queue[left].getFCost())
     {
       newpos = left;
     }
 
     if (right <= size)
     {
-      if (queue[index].getFCost() < queue[left].getFCost())
+      if (queue[newpos].getFCost() > queue[right].getFCost())
       {
         newpos = right;
       }
     }
 
-    if (newpos != -4)
+    if (newpos != index)
     {
       std::swap(queue[index], queue[newpos]);
       index = newpos;
@@ -78,7 +78,7 @@ bool frontier_queue<T>::contains(const T &p)
 {
 
   int len = queue.size();
-  for (int i = 0; i < len;)
+  for (int i = 0; i < len; i++)
   {
     if (p == queue[i].getValue())
     {
@@ -99,6 +99,7 @@ void frontier_queue<T>::replaceif(const T &p, std::size_t cost)
     {
       if (cost < queue[i].getFCost())
       {
+        queue[i].updatePathCost(cost);
         State<T> tempstate = queue[i];
         queue.erase(queue.begin() + i);
         push(p, cost, tempstate.getFCost() - cost);
